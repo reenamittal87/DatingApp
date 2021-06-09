@@ -6,34 +6,40 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using API.Interfaces;
+using API.DTOs;
+using AutoMapper;
 
 namespace API.Controllers
 {
+    [Authorize]  
     public class UsersController: BaseApiController
     { 
-      private readonly DataContext _context;
+      private readonly IUserRepository _userRepository;
+      private readonly IMapper _mapper;
 
-      public UsersController(DataContext context)
+      public UsersController(IUserRepository userRepository, IMapper mapper)
       {
-        _context=context;
+        _userRepository=userRepository;
+        _mapper=mapper;
       }  
 
     [HttpGet]
-    [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+    //[AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
-        return await _context.Users.ToListAsync();
-    }
-//public ActionResult<IEnumerable<AppUser>> GetUsers()
-  //  {
-    //    return _context.Users.ToList();
-    //}
+        //var users = await _userRepository.GetUsersAsync();  
+        //var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users); 
+        // return Ok(usersToReturn);
+        var users = await _userRepository.GetMembersAsync();
 
+        return Ok(users);
+    }
 
 
     //api/users/3
-    [Authorize]
-    [HttpGet("{id}")]
+    //[Authorize]
+    [HttpGet("{username}")]
     //public ActionResult<AppUser> GetUsers(int id)
     //{
         //var user = _context.Users.Find(id);
@@ -41,9 +47,11 @@ namespace API.Controllers
       //  return _context.Users.Find(id);
     //}
 
-    public async Task<ActionResult<AppUser>> GetUsers(int id)
+    public async Task<ActionResult<MemberDto>> GetUser(string username)
     {
-        return await _context.Users.FindAsync(id);
+        //var user = await _userRepository.GetUserByUsernameAsync(username);
+        //return _mapper.Map<MemberDto>(user);
+        return await _userRepository.GetMemberAsync(username);
     }
 
     }
