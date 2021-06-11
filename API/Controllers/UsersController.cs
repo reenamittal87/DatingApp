@@ -12,7 +12,7 @@ using AutoMapper;
 
 namespace API.Controllers
 {
-    [Authorize]  
+    //[Authorize]  Commented for the moment as the SSL not working
     public class UsersController: BaseApiController
     { 
       private readonly IUserRepository _userRepository;
