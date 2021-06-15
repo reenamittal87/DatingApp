@@ -79,8 +79,8 @@ namespace API
                 //"sslCert": "./ssl/server.crt",
                 //"ssl":true
             //},
-            //app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
-            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+            //app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
             app.UseAuthentication();
             app.UseAuthorization();
